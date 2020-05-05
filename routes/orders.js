@@ -9,7 +9,7 @@ router.route('/').get((req,res)=>{
 });
 
 router.route('/add').post((req, res)=>{
-    const  { action, symbol, qty, orderType, tif, price, stopPrice, comment} = req.body;
+    const  { action, symbol, qty, orderType, tif, price, stopPrice, comment} = req.body.order;
     const newOrder = new Order({
         action, symbol, qty, orderType, tif, price, stopPrice, comment
     })
