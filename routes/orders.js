@@ -25,4 +25,31 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error ' + err));
 });
 
+//get single record
+router.route('/:id').get((req, res) => {
+    Order.findById(req.params.id)
+     .then(order=> res.json(order))
+     .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req,res)=>{
+    const  { action, symbol, qty, orderType, tif, price, stopPrice, comment} = req.body.order;
+    Order.findById(req.params.id)
+    .then(order=> {
+        order.action = action;
+        order.symbol = symbol;
+        order.qty = qty;
+        order.orderType = orderType;
+        order.tif = tif;
+        order.price = price;
+        order.stopPrice = stopPrice;
+        order.comment = comment;
+
+        order.save()
+            .then(()=> res.json('order updated!'))
+            .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error '+ err));
+})
+
 module.exports = router;
